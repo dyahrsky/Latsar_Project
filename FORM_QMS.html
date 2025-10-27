@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Pengisian QMS Mandiri</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-top: 1.5cm;
+      padding-bottom: 0.7cm;
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(109, 109, 109, 0.4)),  /* lapisan gelap */
+        url('./bg/bg-login.jpg') no-repeat center center fixed;   /* gambar dari folder bg */
+      background-size: cover;
+      backdrop-filter: blur(2px); /* efek blur halus di seluruh bg */
+    }
+    /* HEADER FOOTER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1.2cm;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+      z-index: 1000;
+      box-sizing: border-box;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-left img {
+      height: 1cm;
+      width: auto;
+    }
+    .header-left .text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .header-left .title {
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #000000;
+    }
+    .header-left .subtitle {
+      font-size: 0.8rem;
+      color: #555;
+      margin-top: 3px;
+    }
+    .header-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .menu-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background-color: #1f138bf3;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 3px 8px;
+      min-width: 67.15px;
+      height: 22px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 501;
+      transition: all 0.3s ease;
+    }
+    .menu-box i {
+      font-size: 0.9rem;
+    }
+    .menu-box:hover {
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 2px 5px #130c52f3;
+      transform: translateY(-2px);
+    }
+    .account-menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      background-color: #ffffff;
+      color: #0a043fd8;
+      text-decoration: none;
+      border: 1px solid #ccc;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+    .account-menu:hover {
+      transform: translateY(-2px) scale(1.1);
+      box-shadow: 0 2px 5px #130c52f3;
+    }
+    .account-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 38px;
+      background-color: #fff;
+      min-width: 150px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      border-radius: 6px;
+      overflow: hidden;
+      z-index: 1500;
+    }
+    .dropdown-content a {
+      color: #000;
+      padding: 8px 12px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.8rem;
+      transition: background-color 0.3s ease;
+    }
+    .dropdown-content a:hover {
+      background-color: #accadf;
+    }
+    .account-dropdown.show .dropdown-content {
+      display: block;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0.5cm;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8rem;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    }
+
+    /* FORM */
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.9rem;
+      margin-bottom: 40px;
+      font-weight: bold;
+    }
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 18px;
+      gap: 30px;
+    }
+    /* label kiri + titik dua */
+    .label-group {
+      display: flex;
+      width: 240px;
+      white-space: nowrap;
+    }
+    .label-text {
+      flex: 1;
+      font-weight: bold;
+    }
+    .colon {
+      margin-left: 4px;
+      font-weight: bold;
+    }
+    /* kolom input */
+    .input-group {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .input-group input[type="text"],
+    .input-group input[type="number"],
+    .input-group input[type="file"],
+    .input-group input[type="date"],
+    .input-group select {
+      flex: 1;
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 0.91rem;
+      font-family: inherit;
+      color: inherit;
+    }
+    .small-input {
+      width: 160px;
+    }
+    .prefix {
+      width: 40px;
+      text-align: center;
+      font-weight: bold;
+    }
+    /* Tombol lihat dokumen */
+    .view-btn {
+      background-color: #1f138bf3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .view-btn:hover {
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 2px 5px #130c52f3;
+      transform: translateY(-2px);
+    }
+    /* Tombol Submit */
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 25px;
+    }
+    .submit-btn {
+      background-color: #1f138bf3;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 2px 5px #130c52f3;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+
+<body>
+<!-- HEADER FOOTER-->
+  <header>
+    <div class="header-left">
+      <img src="https://www.bmkg.go.id/images/profil/logo-bmkg.png" alt="Logo BMKG"> 
+      <div class="text">
+        <div class="title">Tim Standarisasi, Prosedur, dan Personel</div>
+        <div class="subtitle">Direktorat Meteorologi Penerbangan</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <a href="Halaman_Utama.html" class="menu-box"><i class="fa-solid fa-house"></i> Beranda</a>
+      <a href="FORM_ISO.html" class="menu-box"><i class="fa-solid fa-file-lines"></i> Form ISO</a>
+      <a href="FORM_QMS.html" class="menu-box"><i class="fa-solid fa-file-lines"></i> Form QMS</a>
+      <div class="account-dropdown" id="accountDropdown">
+        <div class="account-menu"><i class="fa-solid fa-user"></i></div>
+        <div class="dropdown-content">
+          <a href="info_stasiun.html"><i class="fa-solid fa-circle-info"></i> Informasi Stasiun</a>
+          <a href="LOGIN_SCHEMA.html"><i class="fa-solid fa-right-from-bracket"></i>  Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <footer>
+    Prototype by @dyahbmkg
+  </footer>
+<script>
+    // Dropdown interaktif
+    const dropdown = document.getElementById('accountDropdown');
+    dropdown.addEventListener('click', () => {
+      dropdown.classList.toggle('show');
+    });
+    window.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+</script>
+<!-- FORM -->
+<main>
+  <h1>FORM PENGISIAN INFORMASI<br>QUALITY MANAGEMENT SYSTEM (QMS)</h1>
+
+  <div class="form-row">
+    <div class="label-group">
+      <span class="label-text">Stasiun Meteorologi</span><span class="colon">:</span>
+    </div>
+    <div class="input-group">
+      <select>
+        <option value="" disabled selected hidden>Pilih Unit Kerja</option>
+        <option>Stasiun Meteorologi 1</option>
+        <option>Dropdown 2</option>
+      </select>
+      <span class="separator">-</span>
+      <input type="text" class="small-input" placeholder="Automatic ICAO CODE">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="label-group">
+      <span class="label-text">Tahun Sertifikasi QMS</span><span class="colon">:</span>
+    </div>
+    <div class="input-group">
+      <input type="date" class="btn" type="submit">
+      <span class="separator">Masa Berlaku Hingga</span>
+      <input type="date" class="btn" type="submit">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="label-group">
+      <span class="label-text">PIC Kegiatan QMS</span><span class="colon">:</span>
+    </div>
+    <div class="input-group">
+      <input type="text" placeholder="Text (Title Case)">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="label-group">
+      <span class="label-text">Kontak PIC QMS</span><span class="colon">:</span>
+    </div>
+    <div class="input-group">
+      <span class="prefix">+62</span>
+      <input type="text" placeholder="Number">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="label-group">
+      <span class="label-text">Email Unit Kerja</span><span class="colon">:</span>
+    </div>
+    <div class="input-group">
+      <input type="text" placeholder="Alamat email">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="label-group">
+      <span class="label-text">Status QMS Tahun Ini</span><span class="colon">:</span>
+    </div>
+    <div class="input-group">
+      <select>
+        <option value="" disabled selected hidden>Pilih Status</option>
+        <option>Dropdown</option>
+        <option>Dropdown 2</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="label-group">
+      <span class="label-text">Dokumen Audit Internal</span><span class="colon">:</span>
+    </div>
+    <div class="input-group">
+      <input type="file" accept=".pdf,.jpg,.png">
+      <button class="view-btn"><i class="fa fa-eye"></i></button>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="label-group">
+      <span class="label-text">Scan Sertifikat QMS Mandiri</span><span class="colon">:</span>
+    </div>
+    <div class="input-group">
+      <input type="file" accept=".pdf,.jpg,.png">
+      <button class="view-btn"><i class="fa fa-eye"></i></button>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="submit-btn">
+      <i class="fa fa-paper-plane"></i> Submit
+    </button>
+  </div>
+</main>
+
+</body>
+</html>
